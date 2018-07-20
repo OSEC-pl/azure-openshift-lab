@@ -1,0 +1,58 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "masterVmSize": {
+            "value": "Standard_E2s_v3"
+        },
+        "infraVmSize": {
+            "value": "Standard_E2s_v3"
+        },
+        "nodeVmSize": {
+            "value": "Standard_E2s_v3"
+        },
+        "openshiftClusterPrefix": {
+            "value": "mycluster"
+        },
+        "masterInstanceCount": {
+            "value": 3
+        },
+        "infraInstanceCount": {
+            "value": 2
+        },
+        "nodeInstanceCount": {
+            "value": 2
+        },
+        "dataDiskSize": {
+            "value": 128
+        },
+        "adminUsername": {
+            "value": "clusteradmin"
+        },
+        "openshiftPassword": {
+            "value": "somepaslololol"
+        },
+        "sshPublicKey": {
+            "value": "ssh-rsa foo=="
+        },
+        "keyVaultResourceGroup": {
+            "value": "keyvaultrg"
+        },
+        "keyVaultName": {
+            "value": "keyvault"
+        },
+        "keyVaultSecret": {
+            "value": "keysecret"
+        },
+        "aadClientId": {
+            "value": "9bc467c9-66ea-4ee4-9b25-bb2b980f811d"
+        },
+        "aadClientSecret": {
+            "value": "{Strong Password}"
+        },
+        "defaultSubDomainType": {
+            "value": "nipio"
+        }
+    }
+}
+
