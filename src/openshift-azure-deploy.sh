@@ -6,13 +6,14 @@
 AZ_LOCATION=eastus
 AZ_RG_OPENSHIFT=openshiftrg
 AZ_RG_KEYVAULT=keyvaultrg
-AZ_KEYVAULT=ae119606f058407bb911
+AZ_KEYVAULT=ae119606f058407bb911 # unikalny string wygenerowany przez uuidgen
 AZ_SSH_PRIVKEY=~/.ssh/azure_openshift_rsa
 AZ_SSH_SECRET=keysecret
 AZ_SP=openshiftsp
+AZ_SP_PASS=f4ljfi43jf493jif84 # haslo do SP/cluster admin 
 AZ_GROUP_OPENSHIFT=myOpenShiftCluster
 AZ_OPENSHIFT_TEMPLATE=https://raw.githubusercontent.com/Microsoft/openshift-origin/master/azuredeploy.json
-AZ_OPENSHIFT_ADMIN=clusteradmin
+AZ_OPENSHIFT_ADMIN=clusteradmin # haslo admina w openshift
 
 check_binary() {
 	which $1 &>/dev/null
@@ -62,7 +63,7 @@ check_binary az
 check_binary jq
 
 if [ -z "$AZ_SP_PASS" ] ; then
-	echo Please set $AZ_SP_PASS env variable.
+	echo Please set \$AZ_SP_PASS env variable.
 	exit 1
 fi
 
@@ -74,6 +75,9 @@ az_provision group create --name ${AZ_RG_KEYVAULT} --location ${AZ_LOCATION}
 az_provision keyvault create --name ${AZ_KEYVAULT} --resource-group ${AZ_RG_KEYVAULT} \
 	--enabled-for-template-deployment true \
 	--location ${AZ_LOCATION}
+
+sleep 10 
+
 
 if [ ! -f ${AZ_SSH_PRIVKEY} ] ; then
 	ssh-keygen -f ${AZ_SSH_PRIVKEY} -t rsa -N ''
@@ -98,27 +102,26 @@ echo Using appId: ${appid}
 
 pubkey=$(cat ${AZ_SSH_PRIVKEY}.pub | sed "s/ /\\\ /g")
 
+
 az group deployment create -g ${AZ_RG_OPENSHIFT} --name ${AZ_GROUP_OPENSHIFT} \
       --template-uri ${AZ_OPENSHIFT_TEMPLATE} \
-      --parameters @./azuredeploy.parameters.json
+      --parameters @./azuredeploy.parameters.json \
 	masterVmSize=Standard_E2s_v3 \
 	infraVmSize=Standard_E2s_v3 \
 	nodeVmSize=Standard_E2s_v3 \
 	openshiftClusterPrefix=mycluster \
-	masterInstanceCount=3 \
+	masterInstanceCount=1 \
 	infraInstanceCount=2 \
 	nodeInstanceCount=2 \
 	dataDiskSize=128 \
 	adminUsername=${AZ_OPENSHIFT_ADMIN} \
 	openshiftPassword=${AZ_SP_PASS} \
-#	sshPublicKey=${pubkey}  \
 	keyVaultResourceGroup=${AZ_RG_KEYVAULT} \
-	keyVaultName=${AZ_KEYVAULT} \ 
+	keyVaultName=${AZ_KEYVAULT} \
 	keyVaultSecret=${AZ_SSH_SECRET} \
 	aadClientId=$appid \
 	aadClientSecret=${AZ_SP_PASS} \
-	defaultSubDomainType=nipio \
-#	defaultSubDomain="openshiftlab.osec.pl"
+	defaultSubDomainType=nipio 
 
 #echo ssh -p 2200 ${AZ_OPENSHIFT_ADMIN}@myopenshiftmaster.cloudapp.azure.com
 
