@@ -1,0 +1,12 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"_artifactsLocation": {
+			"value": "https://raw.githubusercontent.com/Microsoft/openshift-origin/master"
+		},
+		"sshPublicKey": {
+			"value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0Fqyf76G9KnnSU4uDXu3+Lr2W80hmQRgJnIwp2ZmaQpRDAxk/SxZft9Xv4oY0XUrnDWclUTmdcf8ohzd84dZraxeSnbhIqWAGnAMY61aFX66wuYryyZdnK50dUqUTyV8ePSHhiN17GE5rS4tvNaaWgXU71SgGUlqvhCcfQmFP1mje5BlW90+b4/5fodE4hpoDVnEv20TsBQGiCx3ZvuHDLPO7sbOe50dtEwcioi0oaoy33OY8ZKfpZBWxl/+79rUGCjDPI3lMfdxoIG8w47/b5ZL3Y/NL9bMkJ6PUcXn9xQmvzfJzO4k8lStcsyrgqCQztAfxc7mWefB55Ijy28cl divi@cerber.osec.pl"
+		}
+	}
+}
